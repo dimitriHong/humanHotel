@@ -44,17 +44,17 @@ public class memberController {
 //	}
 //	
 ////	mypage 정보조회/수정/삭제
-//	@RequestMapping(value = "/mypage/myinfo", method = RequestMethod.GET)
-//	public String myinfo_main(Principal principal,Model model) {
-//		String ID=principal.getName();
-//        System.out.println(ID);
-//        IDao dao=sqlSession.getMapper(IDao.class);
-//        System.out.println("Idao : "+dao);
-//        UserDTO dto=dao.mypage(ID);
-//        System.out.println("UserDTO :"+dto);
-//        model.addAttribute("mem_info",dto);
-//		return "member_mypage/mem_myinfo";
-//	}
+	@RequestMapping(value = "/mypage/myinfo", method = RequestMethod.GET)
+	public String myinfo_main(Principal principal,Model model) {
+		String ID=principal.getName();
+        System.out.println(ID);
+        IDao dao=sqlSession.getMapper(IDao.class);
+        System.out.println("Idao : "+dao);
+        UserDTO dto=dao.mypage(ID);
+        System.out.println("UserDTO :"+dto);
+        model.addAttribute("mem_info",dto);
+		return "member_mypage/mem_myinfo";
+	}
 //	@RequestMapping(value = "/mypage/mem_update", method = RequestMethod.POST)
 //	public String memberupdate(HttpServletRequest req, Model model,Principal principal) {
 //		
