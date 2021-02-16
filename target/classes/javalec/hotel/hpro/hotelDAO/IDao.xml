@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="javalec.hotel.hpro.hotelDAO.IDao">
+	<!-- 이성규님 -->
+	
+	<select id="adminCheck" resultType="int">
+	<!-- 로그인 -->
+		select count(*) from HadminManage where emp_id=#{param1} and emp_pw=#{param2}
+	</select>
+	<select id="roomlist" resultType="javalec.hotel.hpro.hotelDTO.hDTO">
+	<!-- 현재 등록된 객실정보 불러오기 -->
+		select room_id,room_name,room_type,max_guestnum,room_price from HroomManage order by room_name
+	</select>
+	<select id="roomlist1" resultType="javalec.hotel.hpro.hotelDTO.hDTO">
+		select room_id,room_name,room_type,max_guestnum,room_price from HroomManage where room_name like #{param1}
+	</select>
+	<select id="roomlist2" resultType="javalec.hotel.hpro.hotelDTO.hDTO">
+		select room_id,room_name,room_type,max_guestnum,room_price from HroomManage where room_type = #{param1}
+	</select>
+	<select id="roomlistA" resultType="int">
+	<!--객실이름 중복여부-->
+		select count(*) from HroomManage where room_name = #{param1}
+	</select>
+	<insert id="roominsert">
+	<!-- 객실정보 추가 -->
+		insert into HroomManage (room_name,room_type,max_guestnum,room_price) values (#{param1},#{param2},#{param3},#{param4})
+	</insert>
+	<update id="roomupdate">
+		update HroomManage set room_name=#{param1}, room_type=#{param2}, max_guestnum=#{param3}, room_price=#{param4} where room_id=#{param5}
+	</update>
+	<delete id="roomdelete">
+		delete from HroomManage where room_id=#{param1}
+	</delete>
+	<select id="membersearch" resultType="javalec.hotel.hpro.hotelDTO.hDTO">
+		select * from HmemberManage 
+	</select>
+	<select id="membersearch1" resultType="javalec.hotel.hpro.hotelDTO.hDTO">
+		select * from HmemberManage where NAME like #{param1}
+	</select>
+	<select id="membersearch2" resultType="javalec.hotel.hpro.hotelDTO.hDTO">
+		select * from HmemberManage where mem_tier = #{param1}
+	</select>
+	<select id="membersearchA" resultType="int">
+		select count(*) from HmemberManage where ID = #{param1}
+	</select>
+	<insert id="memberinsert">
+	<!-- 고객정보 추가 -->
+		insert into HmemberManage(NAME,mem_mobile,ID,PASSWORD,mem_address,mem_email,auth) values (#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},'ROLE_MEMBER')
+	</insert>
+	<update id="memberupdate">
+		update HmemberManage SET mem_mobile=#{param1},mem_tier=#{param2},PASSWORD=#{param3},mem_address=#{param4},mem_email=#{param5} where ID=#{param6}
+	</update>
+	<delete id="memberdelete">
+		delete from HmemberManage where ID=#{param1}
+	</delete>
+	<select id="adminsearch" resultType="javalec.hotel.hpro.hotelDTO.hDTO">
+		select * from HadminManage 
+	</select>
+	<select id="adminsearch1" resultType="javalec.hotel.hpro.hotelDTO.hDTO">
+		select * from HadminManage where emp_name like #{param1}
+	</select>
+	<select id="adminsearch2" resultType="javalec.hotel.hpro.hotelDTO.hDTO">
+		select * from HadminManage where emp_part = #{param1}
+	</select>
+		<select id="adminsearchA" resultType="int">
+		select count(*) from HadminManage where emp_id = #{param1}
+	</select>
+	<insert id="admininsert">
+		insert into HadminManage(emp_name,emp_mobile,emp_id,emp_pw,emp_part,emp_level) values (#{param1},#{param2},#{param3},#{param4},#{param5},#{param6})
+	</insert>
+	<update id="adminupdate">
+		update HadminManage SET emp_mobile=#{param1},emp_pw=#{param2},emp_part=#{param3},emp_level=#{param4} where emp_id=#{param5}
+	</update>
+	<delete id="admindelete">
+		delete from HadminManage where emp_id=#{param1}
+	</delete>
+	<select id="booksearch" resultType="javalec.hotel.hpro.hotelDTO.hDTO">
+		select * from HbookManage 
+	</select>
+	<select id="booksearch1" resultType="javalec.hotel.hpro.hotelDTO.hDTO">
+		select * from HroomManage where room_name not in(select book_rname from HbookManage where((book_checkin<![CDATA[ >= ]]>#{param1} and book_checkin<![CDATA[ < ]]>#{param2}) or (book_checkout<![CDATA[ > ]]>#{param1} and book_checkout<![CDATA[ <= ]]>#{param2}))) and room_type=#{param3} order by room_name;
+	</select>
+	<select id="booksearchB" resultType="javalec.hotel.hpro.hotelDTO.hDTO">
+		select * from HbookManage where (book_checkin<![CDATA[ >= ]]>#{param1} and book_checkin<![CDATA[ < ]]>#{param2}) or (book_checkout<![CDATA[ > ]]>#{param1} and book_checkout<![CDATA[ <= ]]>#{param2}) order by book_checkin;
+	</select>
+	<select id="booksearchA" resultType="javalec.hotel.hpro.hotelDTO.hDTO">
+		select * from HbookManage where book_name=#{param1} and book_mobile=#{param2}
+	</select>
+	<select id="memsearch" resultType="javalec.hotel.hpro.hotelDTO.hDTO">
+		select mem_number,mem_point,mem_tier from HmemberManage where NAME= #{param1} and mem_mobile = #{param2}
+	</select>
+	<insert id="bookinsert">
+		insert into HbookManage(book_name,book_checkin,book_checkout,book_mobile,book_rname,book_rtype,book_cusnum,book_sum,oneday_pay,max_cusnum) values (#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},#{param7},#{param8},#{param9},#{param10})
+	</insert>
+	<insert id="bookinsertMadd">
+		insert into HbookManage(book_name,book_checkin,book_checkout,book_mobile,book_rname,book_rtype,book_cusnum,book_sum,book_addP,oneday_pay,max_cusnum) values (#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},#{param7},#{param8},#{param9},#{param10},#{param11})
+	</insert>
+	<update id="memPadd">
+		update HmemberManage SET mem_point=mem_point+#{param3} where NAME=#{param1} and mem_mobile=#{param2}
+	</update>
+	<insert id="bookinsertMuse">
+		insert into HbookManage(book_name,book_checkin,book_checkout,book_mobile,book_rname,book_rtype,book_cusnum,book_sum,book_useP,oneday_pay,max_cusnum) values (#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},#{param7},#{param8},#{param9},#{param10},#{param11})
+	</insert>
+	<update id="memPuse">
+		update HmemberManage SET mem_point=mem_point-#{param3} where NAME=#{param1} and mem_mobile=#{param2}
+	</update>
+	<update id="rollbackMem">
+		update HmemberManage SET mem_point=mem_point-#{param1}+#{param2} where NAME=#{param3} and mem_mobile=#{param4}
+	</update>
+	<update id="bookupdate">
+		update HbookManage SET book_checkin=#{param1},book_checkout=#{param2},book_cusnum=#{param3},book_sum=#{param4} where book_id=#{param5}
+	</update>
+	<update id="bookupdateAddP">
+		update HbookManage SET book_checkin=#{param1},book_checkout=#{param2},book_cusnum=#{param3},book_sum=#{param4},book_addP=#{param5},book_useP=0 where book_id=#{param6}
+	</update>
+	<delete id="bookdelete">
+		delete from HbookManage where book_id=#{param1}
+	</delete>
+	<update id="rollbackMem2">
+		update HmemberManage SET mem_point=mem_point+#{param1}-#{param2}+#{param5} where NAME=#{param3} and mem_mobile=#{param4}
+	</update>
+	<update id="rollbackMem3">
+		update HmemberManage SET mem_point=mem_point+#{param1}-#{param2}-#{param5} where NAME=#{param3} and mem_mobile=#{param4}
+	</update>
+	<update id="bookupdateUseP">
+		update HbookManage SET book_checkin=#{param1},book_checkout=#{param2},book_cusnum=#{param3},book_sum=#{param4},book_addP=0,book_useP=#{param5} where book_id=#{param6}
+	</update>
+	<select id="selectID" resultType="String">
+		select book_id from HbookManage where book_name = #{param1} and book_checkin = #{param2} and book_checkout = #{param3} and book_mobile = #{param4} and book_rname = #{param5} 
+	</select>
+	<select id="booksearchS" resultType="javalec.hotel.hpro.hotelDTO.hDTO">
+		select * from HbookManage where book_id = #{param1} and book_name = #{param2} and book_mobile = #{param3}
+	</select>
+	
+		
+	
+	<!-- 민주홍님 -->
+		<select id="question" resultType="javalec.hotel.hpro.hotelDTO.hDTO">
+	<!-- 등록된 1:1문의 불러오기  -->
+		select	question_id,question_list,question_title,question_name,question_date from Hquestionboard
+	</select>
+	<select id="content"  resultType="javalec.hotel.hpro.hotelDTO.hDTO">
+	<!-- 1:1문의 게시판 상세페이지 -->
+		select question_id, question_list,question_title,question_content,question_name,question_mail,question_mobile,question_nc,question_sl from Hquestionboard where question_id=#{param1}
+	</select> 
+	<select id="question_write">
+		<!-- 1:1문의 입력 페이지 -->
+		insert into Hquestionboard(question_list,question_title,question_content,question_date,question_name,question_mail,question_mobile,question_nc,question_sl)
+		 values(#{param1},#{param2},#{param3},now(),#{param4},#{param5},#{param6},#{param7},#{param8})
+	</select>
+	<select id="question_delete">
+		delete from Hquestionboard where question_id=#{param1};	
+	</select>
+	<update id="mem_update">
+		<!-- 회원정보 수정 입력 페이지 -->
+		update HmemberManage SET PASSWORD=#{param1},mem_mobile=#{param2},mem_address=#{param3},mem_email=#{param4} where ID=#{param5}
+	</update>
+	<delete id="mem_delete">
+		delete from HmemberManage where ID=#{param1}
+	</delete>
+	
+	<!-- 후기게시판 -->
+	<!-- 후기 입력  -->
+	<insert id="review_write">
+	insert into Hreviewboard (review_title,review_content,review_name,review_pw) value(#{param1},#{param2},#{param3},#{param4})
+	</insert>
+	<!-- 후기 목록 -->
+	<select id="review_list" resultType="javalec.hotel.hpro.hotelDTO.hDTO">
+		select review_id,review_title,review_content,review_name,review_hit
+		from Hreviewboard order by review_id desc
+		LIMIT #{startList}, #{listSize}
+	</select>
+	<!-- 후기 -->
+	<select id="review_content" resultType="javalec.hotel.hpro.hotelDTO.hDTO">
+	select review_id,review_title,review_content,review_name
+		from Hreviewboard where review_id=#{param1}
+	</select>
+	<update id="review_update">
+		update Hreviewboard 
+		set review_title=#{param1},review_content=#{param2} 
+		where review_id=#{param3}
+	</update>
+	<delete id="review_delete" >
+		delete from Hreviewboard where review_id=#{param1}
+	</delete>
+	<update id="review_Cnt" parameterType="javalec.hotel.hpro.hotelDTO.hDTO" >
+	UPDATE Hreviewboard SET
+		review_hit = review_hit + 1
+		WHERE
+		review_id =
+		#{param1}
+	</update>
+	<select id="pw_chk"  resultType="int">
+		select count(*)
+		from Hreviewboard
+		where review_id=#{param1} and review_pw=#{param2}
+	</select>
+	
+	<!-- 후기게시판 댓글 -->
+	<select id="getReplyList" resultType="javalec.hotel.hpro.hotelDTO.ReplyVO">
+		SELECT
+			RID
+			, BID
+			, CONTENT
+			, REG_ID
+			, REG_DT
+			, EDIT_DT
+		FROM
+			review_reply
+		WHERE
+			BID = #{bid}
+		ORDER BY REG_DT desc
+	</select>
+	<insert id="saveReply" parameterType="javalec.hotel.hpro.hotelDTO.ReplyVO">
+		INSERT INTO review_reply(BID, CONTENT, REG_ID, REG_DT, EDIT_DT)
+		VALUES (
+			#{bid}
+			, #{content}
+			, #{reg_id}
+			, now()
+			, now()
+		)
+	</insert>
+	<update id="updateReply" parameterType="javalec.hotel.hpro.hotelDTO.ReplyVO">
+		UPDATE review_reply SET
+			CONTENT = #{content}
+			, EDIT_DT = now()
+		WHERE
+			RID = #{rid}
+	</update>
+	<delete id="deleteReply" parameterType="int">
+		DELETE FROM review_reply
+		WHERE
+			RID = #{rid}
+	</delete>
+	
+	<!-- 로그인  -->
+	<insert id="mem_join" >
+		insert into HmemberManage(ID,PASSWORD,NAME,mem_address,mem_email,mem_mobile) values(#{param1},#{param2},#{param3},#{param4},#{param5},#{param6})
+	</insert>
+	<!-- insert test -->
+	<!-- 
+	
+	<select id="mypage" resultType="javalec.hotel.hpro.hotelDTO.UserDTO">
+		select ID, NAME, mem_number, mem_tier, mem_point, mem_address, mem_email, mem_date, mem_mobile from HmemberManage where ID=#{param1}
+	</select>
+	<delete id="mem_delete" parameterType="String">
+		delete from HmemberManage where ID=#{param1}
+	</delete>
+	<update id="mem_update" >
+		회원정보 수정 입력 페이지
+		update HmemberManage SET PASSWORD=#{param2},mem_mobile=#{param3},mem_address=#{param4},mem_email=#{param5} where ID=#{param1}
+	</update> -->
+	
+	<!-- 페이징처리  -->
+	<select id="getBoardListCnt" resultType="int">
+		SELECT
+			count(*) as review_id
+		FROM
+			Hreviewboard
+	</select>
+</mapper>
