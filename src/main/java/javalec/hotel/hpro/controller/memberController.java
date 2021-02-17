@@ -42,8 +42,31 @@ public class memberController {
 //		
 //		return "member/mem_intro";
 //	}
-
-//	mypage 정보조회/수정/삭제
+	
+	//회원가입 페이지 이동
+		@RequestMapping(value = "/memberjoin", method = RequestMethod.GET)
+		public String memberjoin(Locale locale, Model model) {
+			return "/member/mem_join";
+		}
+		
+		//회원가입
+		@RequestMapping(value = "/memberjoin1", method = RequestMethod.POST)
+		public String memberjoin1(HttpServletRequest req, Model model) {
+			String id=req.getParameter("id");
+			String pw=req.getParameter("password");
+			String name=req.getParameter("name");
+			String address=req.getParameter("mem_address");
+			System.out.println(address);
+			String email=req.getParameter("mem_email");
+			System.out.println(email);
+			String mobile=req.getParameter("mem_mobile");
+			System.out.println(mobile);
+			String password=pwdEncoder.encode(pw);
+			IDao dao=sqlSession.getMapper(IDao.class);
+			dao.mem_join(id,password,name,address,email,mobile);
+			return "/member/mem_joincp";
+		}
+		
 	//정보조회
 	@RequestMapping(value = "/mypage/myinfo", method = RequestMethod.GET)
 	public String myinfo_main(Principal principal,Model model) {
@@ -56,6 +79,7 @@ public class memberController {
         model.addAttribute("mem_info",dto);
 		return "member_mypage/mem_myinfo";
 	}
+	
 	//정보수정 페이지 이동
 	@RequestMapping(value = "/mypage/mem_udpage", method = RequestMethod.GET)
 	public String mem_update(Principal principal, Model model) {
@@ -72,8 +96,6 @@ public class memberController {
 	//정보수정
 	@RequestMapping(value = "/mypage/mem_update", method = RequestMethod.POST)
 	public String memberupdate(HttpServletRequest req, Model model,Principal principal) {
-		
-
         IDao dao=sqlSession.getMapper(IDao.class);
 		String ID=principal.getName();
         System.out.println(ID);
@@ -90,48 +112,25 @@ public class memberController {
 		dao.mem_update(ID,password,mem_mobile,mem_address,mem_email);
 		return "redirect:/member/mypage/myinfo";
 	}
-	//회원가입 페이지 이동
-	@RequestMapping(value = "/memberjoin", method = RequestMethod.GET)
-	public String memberjoin(Locale locale, Model model) {
-		return "/member/mem_join";
-	}
-//	
-	//회원가입
-	@RequestMapping(value = "/memberjoin1", method = RequestMethod.POST)
-	public String memberjoin1(HttpServletRequest req, Model model) {
-		String id=req.getParameter("id");
-		String pw=req.getParameter("password");
-		String name=req.getParameter("name");
-		String address=req.getParameter("mem_address");
-		System.out.println(address);
-		String email=req.getParameter("mem_email");
-		System.out.println(email);
-		String mobile=req.getParameter("mem_mobile");
-		System.out.println(mobile);
-		String password=pwdEncoder.encode(pw);
-		IDao dao=sqlSession.getMapper(IDao.class);
-		dao.mem_join(id,password,name,address,email,mobile);
-		return "/member/mem_joincp";
-	}
 	
-	//회원탈퇴 페이지	
-	@RequestMapping(value = "/mypage/mem_delpage", method = RequestMethod.GET)
-	public String mem_deletepage(Locale locale,Model model) {
-		
-		return "/member_mypage/mem_delete";
-	}
-	//회원탈퇴
-	@RequestMapping(value = "/mypage/mem_delete", method = RequestMethod.GET)
-	public String memberinfo(Principal principal,Model model,HttpServletRequest req) {
-		String ID=principal.getName();
-        System.out.println(ID);
-        IDao dao=sqlSession.getMapper(IDao.class);
-        System.out.println("Idao : "+dao);
-        dao.mem_delete(ID);
-        HttpSession session = req.getSession();
-		session.invalidate();
-		return "redirect:/";
-	}
+	
+	
+	  //회원탈퇴 페이지
+	  
+	  @RequestMapping(value = "/mypage/mem_delpage", method = RequestMethod.GET)
+	  public String mem_deletepage(Locale locale,Model model) {		  
+		  return "/member_mypage/mem_delete"; 
+	  } //회원탈퇴
+	  
+	  @RequestMapping(value = "/mypage/mem_delete", method = RequestMethod.GET)
+	  public String mem_delete(Principal principal,Model model,HttpServletRequest req){
+		  String ID=principal.getName(); System.out.println(ID); IDao
+		  dao=sqlSession.getMapper(IDao.class); System.out.println("Idao : "+dao);
+		  dao.mem_delete(ID); HttpSession session = req.getSession();
+		  session.invalidate(); 
+		  return "/"; 
+	  }
+	 
 	
 //	//로그인 페이지
 	@RequestMapping(value = "/mem_login", method = RequestMethod.GET)

@@ -152,13 +152,6 @@
 	<select id="question_delete">
 		delete from Hquestionboard where question_id=#{param1};	
 	</select>
-	<update id="mem_update">
-		<!-- 회원정보 수정 입력 페이지 -->
-		update HmemberManage SET PASSWORD=#{param1},mem_mobile=#{param2},mem_address=#{param3},mem_email=#{param4} where ID=#{param5}
-	</update>
-	<delete id="mem_delete">
-		delete from HmemberManage where ID=#{param1}
-	</delete>
 	
 	<!-- 후기게시판 -->
 	<!-- 후기 입력  -->
@@ -246,15 +239,14 @@
 		select ID, NAME, mem_number, mem_tier, mem_point, mem_address, mem_email, mem_date, mem_mobile from HmemberManage where ID=#{param1}
 	</select>
 	
-	<!-- 회원정보 수정 -->
 	<update id="mem_update" >
+		<!-- 회원정보 수정 입력 페이지 -->
 		update HmemberManage SET PASSWORD=#{param2},mem_mobile=#{param3},mem_address=#{param4},mem_email=#{param5} where ID=#{param1}
 	</update>
 	
-<!-- 	<delete id="mem_delete" parameterType="String">
+ 	 <delete id="mem_delete">
 		delete from HmemberManage where ID=#{param1}
-	</delete> -->
-	
+	</delete>
 	
 	<!-- 페이징처리  -->
 	<select id="getBoardListCnt" resultType="int">
