@@ -42,8 +42,9 @@ public class memberController {
 //		
 //		return "member/mem_intro";
 //	}
-//	
-////	mypage 정보조회/수정/삭제
+
+//	mypage 정보조회/수정/삭제
+	//정보조회
 	@RequestMapping(value = "/mypage/myinfo", method = RequestMethod.GET)
 	public String myinfo_main(Principal principal,Model model) {
 		String ID=principal.getName();
@@ -55,26 +56,41 @@ public class memberController {
         model.addAttribute("mem_info",dto);
 		return "member_mypage/mem_myinfo";
 	}
-//	@RequestMapping(value = "/mypage/mem_update", method = RequestMethod.POST)
-//	public String memberupdate(HttpServletRequest req, Model model,Principal principal) {
-//		
-//
-//        IDao dao=sqlSession.getMapper(IDao.class);
-//		String ID=principal.getName();
-//        System.out.println(ID);
-//        //수정할 정보
-//        String PW=req.getParameter("userpw");
-//        String password=pwdEncoder.encode(PW);
-//        System.out.println(password);
-//		String mem_mobile=req.getParameter("mobile");
-//		System.out.println(mem_mobile);
-//		String mem_address=req.getParameter("address");
-//		System.out.println(mem_address);
-//		String mem_email=req.getParameter("email");
-//		System.out.println(mem_email);
-//		dao.mem_update(ID,password,mem_mobile,mem_address,mem_email);
-//		return "redirect:/member/mypage/myinfo";
-//	}
+	//정보수정 페이지 이동
+	@RequestMapping(value = "/mypage/mem_udpage", method = RequestMethod.GET)
+	public String mem_update(Principal principal, Model model) {
+		//저장된 정보 불러오기
+				String ID=principal.getName();
+		        System.out.println(ID);
+		        IDao dao=sqlSession.getMapper(IDao.class);
+		        System.out.println("Idao : "+dao);
+		        UserDTO dto=dao.mypage(ID);
+		        System.out.println("UserDTO :"+dto);
+		        model.addAttribute("mem_info",dto);
+		return "/member_mypage/mem_update";
+	}
+	//정보수정
+	@RequestMapping(value = "/mypage/mem_update", method = RequestMethod.POST)
+	public String memberupdate(HttpServletRequest req, Model model,Principal principal) {
+		
+
+        IDao dao=sqlSession.getMapper(IDao.class);
+		String ID=principal.getName();
+        System.out.println(ID);
+        //수정할 정보
+        String PW=req.getParameter("userpw");
+        String password=pwdEncoder.encode(PW);
+        System.out.println(password);
+		String mem_mobile=req.getParameter("mobile");
+		System.out.println(mem_mobile);
+		String mem_address=req.getParameter("address");
+		System.out.println(mem_address);
+		String mem_email=req.getParameter("email");
+		System.out.println(mem_email);
+		dao.mem_update(ID,password,mem_mobile,mem_address,mem_email);
+		return "redirect:/member/mypage/myinfo";
+	}
+	//회원가입 페이지 이동
 	@RequestMapping(value = "/memberjoin", method = RequestMethod.GET)
 	public String memberjoin(Locale locale, Model model) {
 		return "/member/mem_join";
@@ -97,34 +113,26 @@ public class memberController {
 		dao.mem_join(id,password,name,address,email,mobile);
 		return "/member/mem_joincp";
 	}
-//	@RequestMapping(value = "/mypage/mem_udpage", method = RequestMethod.GET)
-//	public String mem_update(Principal principal, Model model) {
-//		//저장된 정보
-//				String ID=principal.getName();
-//		        System.out.println(ID);
-//		        IDao dao=sqlSession.getMapper(IDao.class);
-//		        System.out.println("Idao : "+dao);
-//		        UserDTO dto=dao.mypage(ID);
-//		        System.out.println("UserDTO :"+dto);
-//		        model.addAttribute("mem_info",dto);
-//		return "/member_mypage/mem_update";
-//	}
-//	@RequestMapping(value = "/mypage/mem_delpage", method = RequestMethod.GET)
-//	public String mem_deletepage(Locale locale,Model model) {
-//		
-//		return "/member_mypage/mem_delete";
-//	}
-//	@RequestMapping(value = "/mypage/mem_delete", method = RequestMethod.GET)
-//	public String memberinfo(Principal principal,Model model,HttpServletRequest req) {
-//		String ID=principal.getName();
-//        System.out.println(ID);
-//        IDao dao=sqlSession.getMapper(IDao.class);
-//        System.out.println("Idao : "+dao);
-//        dao.mem_delete(ID);
-//        HttpSession session = req.getSession();
-//		session.invalidate();
-//		return "redirect:/";
-//	}
+	
+	//회원탈퇴 페이지	
+	@RequestMapping(value = "/mypage/mem_delpage", method = RequestMethod.GET)
+	public String mem_deletepage(Locale locale,Model model) {
+		
+		return "/member_mypage/mem_delete";
+	}
+	//회원탈퇴
+	@RequestMapping(value = "/mypage/mem_delete", method = RequestMethod.GET)
+	public String memberinfo(Principal principal,Model model,HttpServletRequest req) {
+		String ID=principal.getName();
+        System.out.println(ID);
+        IDao dao=sqlSession.getMapper(IDao.class);
+        System.out.println("Idao : "+dao);
+        dao.mem_delete(ID);
+        HttpSession session = req.getSession();
+		session.invalidate();
+		return "redirect:/";
+	}
+	
 //	//로그인 페이지
 	@RequestMapping(value = "/mem_login", method = RequestMethod.GET)
 	public void loginInput(String error, String logout) {

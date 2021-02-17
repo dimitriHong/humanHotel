@@ -94,8 +94,8 @@ public interface IDao {
 	//로그인 SECURITY
 	public UserDTO mypage(String ID);
 	public void mem_join(String id,String password,String name,String address, String email,String mobile);
-//	public void mem_update(String ID,String password,String mem_mobile,String mem_address,String mem_email);
-//	public void mem_delete(String ID);
+	public void mem_update(String ID,String password,String mem_mobile,String mem_address,String mem_email);
+	public void mem_delete(String ID);
 	
 	
 	

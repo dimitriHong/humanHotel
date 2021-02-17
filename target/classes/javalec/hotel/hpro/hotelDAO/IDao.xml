@@ -235,23 +235,26 @@
 			RID = #{rid}
 	</delete>
 	
-	<!-- 로그인  -->
+	<!-- 회원관리  -->
+	<!-- 회원가입-->
 	<insert id="mem_join" >
 		insert into HmemberManage(ID,PASSWORD,NAME,mem_address,mem_email,mem_mobile) values(#{param1},#{param2},#{param3},#{param4},#{param5},#{param6})
 	</insert>
-	<!-- insert test -->
 	
-	
+	<!-- 회원정보 -->
 	<select id="mypage" resultType="javalec.hotel.hpro.hotelDTO.UserDTO">
 		select ID, NAME, mem_number, mem_tier, mem_point, mem_address, mem_email, mem_date, mem_mobile from HmemberManage where ID=#{param1}
 	</select>
+	
+	<!-- 회원정보 수정 -->
+	<update id="mem_update" >
+		update HmemberManage SET PASSWORD=#{param2},mem_mobile=#{param3},mem_address=#{param4},mem_email=#{param5} where ID=#{param1}
+	</update>
+	
 <!-- 	<delete id="mem_delete" parameterType="String">
 		delete from HmemberManage where ID=#{param1}
-	</delete>
-	<update id="mem_update" >
-		회원정보 수정 입력 페이지
-		update HmemberManage SET PASSWORD=#{param2},mem_mobile=#{param3},mem_address=#{param4},mem_email=#{param5} where ID=#{param1}
-	</update> -->
+	</delete> -->
+	
 	
 	<!-- 페이징처리  -->
 	<select id="getBoardListCnt" resultType="int">
