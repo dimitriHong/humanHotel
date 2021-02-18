@@ -75,6 +75,7 @@ public interface IDao {
 	public void question_delete(int question_id);
 	public hDTO myinfo(String mem_id);
 	public void review_write(String title,String content,String name,String password);
+	
 	public ArrayList<hDTO> review_list(Pagination pagination);
 	public hDTO review_content(int review_id);
 	public void review_update(String review_title,String review_content,int review_id);
@@ -91,13 +92,14 @@ public interface IDao {
 	//총 게시글 개수 확인
 	public int getBoardListCnt() throws Exception;
 	
-	//로그인 SECURITY
+	//로그인 페이지 (회원가입/회원 정보/회원 수정/회원 탈퇴)
 	public UserDTO mypage(String ID);
 	public void mem_join(String id,String password,String name,String address, String email,String mobile);
 	public void mem_update(String ID,String password,String mem_mobile,String mem_address,String mem_email);
 	public void mem_delete(String ID);
 	
-	
+	//회원가입 시 아이디 중복검사
+	public int id_chk(String id) throws Exception;
 	
 	
 		

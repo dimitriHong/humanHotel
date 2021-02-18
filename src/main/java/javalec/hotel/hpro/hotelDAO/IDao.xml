@@ -136,19 +136,24 @@
 		
 	
 	<!-- 민주홍님 -->
-		<select id="question" resultType="javalec.hotel.hpro.hotelDTO.hDTO">
 	<!-- 등록된 1:1문의 불러오기  -->
+	<select id="question" resultType="javalec.hotel.hpro.hotelDTO.hDTO">
+	
 		select	question_id,question_list,question_title,question_name,question_date from Hquestionboard
 	</select>
-	<select id="content"  resultType="javalec.hotel.hpro.hotelDTO.hDTO">
+	
 	<!-- 1:1문의 게시판 상세페이지 -->
+	<select id="content"  resultType="javalec.hotel.hpro.hotelDTO.hDTO">
 		select question_id, question_list,question_title,question_content,question_name,question_mail,question_mobile,question_nc,question_sl from Hquestionboard where question_id=#{param1}
 	</select> 
+	
+	<!-- 1:1문의 입력 페이지 -->
 	<select id="question_write">
-		<!-- 1:1문의 입력 페이지 -->
 		insert into Hquestionboard(question_list,question_title,question_content,question_date,question_name,question_mail,question_mobile,question_nc,question_sl)
-		 values(#{param1},#{param2},#{param3},now(),#{param4},#{param5},#{param6},#{param7},#{param8})
+		values(#{param1},#{param2},#{param3},now(),#{param4},#{param5},#{param6},#{param7},#{param8})
 	</select>
+	
+	<!--1:1문의 삭제  -->
 	<select id="question_delete">
 		delete from Hquestionboard where question_id=#{param1};	
 	</select>
@@ -158,25 +163,33 @@
 	<insert id="review_write">
 	insert into Hreviewboard (review_title,review_content,review_name,review_pw) value(#{param1},#{param2},#{param3},#{param4})
 	</insert>
+	
 	<!-- 후기 목록 -->
 	<select id="review_list" resultType="javalec.hotel.hpro.hotelDTO.hDTO">
 		select review_id,review_title,review_content,review_name,review_hit
 		from Hreviewboard order by review_id desc
 		LIMIT #{startList}, #{listSize}
 	</select>
-	<!-- 후기 -->
+	
+	<!-- 후기 상세페이지-->
 	<select id="review_content" resultType="javalec.hotel.hpro.hotelDTO.hDTO">
 	select review_id,review_title,review_content,review_name
 		from Hreviewboard where review_id=#{param1}
 	</select>
+	
+	<!-- 후기 수정 -->
 	<update id="review_update">
 		update Hreviewboard 
 		set review_title=#{param1},review_content=#{param2} 
 		where review_id=#{param3}
 	</update>
+	
+	<!-- 후기 삭제 -->
 	<delete id="review_delete" >
 		delete from Hreviewboard where review_id=#{param1}
 	</delete>
+	
+	<!-- 후기 조회수 -->
 	<update id="review_Cnt" parameterType="javalec.hotel.hpro.hotelDTO.hDTO" >
 	UPDATE Hreviewboard SET
 		review_hit = review_hit + 1
@@ -184,6 +197,8 @@
 		review_id =
 		#{param1}
 	</update>
+	
+	<!-- 후기 수정/삭제 시 본인 확인 비밀번호 검사 -->
 	<select id="pw_chk"  resultType="int">
 		select count(*)
 		from Hreviewboard
@@ -234,6 +249,13 @@
 		insert into HmemberManage(ID,PASSWORD,NAME,mem_address,mem_email,mem_mobile) values(#{param1},#{param2},#{param3},#{param4},#{param5},#{param6})
 	</insert>
 	
+	<!-- 회원 ID 중복 검사 -->
+	<select id="id_chk" parameterType="String"  resultType="int">
+		select count(*)
+		from HmemberManage
+		where ID=#{param1} 
+	</select>
+	
 	<!-- 회원정보 -->
 	<select id="mypage" resultType="javalec.hotel.hpro.hotelDTO.UserDTO">
 		select ID, NAME, mem_number, mem_tier, mem_point, mem_address, mem_email, mem_date, mem_mobile from HmemberManage where ID=#{param1}
@@ -249,7 +271,7 @@
 	</delete>
 	
 	<!-- 페이징처리  -->
-	<select id="getBoardListCnt" resultType="int">
+	<select id="getBoardListCnt"  resultType="int">
 		SELECT
 			count(*) as review_id
 		FROM

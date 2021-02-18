@@ -8,6 +8,9 @@
     <title>Human Hotel</title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <style>
     * {margin: 0; padding: 0; list-style: none; text-decoration: none; font-family: 'Noto Sans KR', sans-serif;} 
    
@@ -17,22 +20,21 @@
     #sidemenu1 {width: 100%; height: 60%; background-color: wheat}
     #sidemenu1 a{ width: 130px;text-align:center;display:flex;flex-direction: column;margin:80px;color:#C29F6D}
 
-
 	/* 사이드 메뉴 */
     #sidemenu1 ul{text-align: center;margin: 100px auto;}
     #sidemenu1 ul li{padding: 15px;font-size: 20px;}
 
     /* 회원가입 header */
     #header{width: 900px;font-size: 25px;margin:15px 15px;}
-   /* 회원정보 table */
+    /* 회원정보 table */
     #wrap_join{border: 1px solid black;margin-left: 30px;height: 580px;width: 835px;border-radius: 5px;background-color: rgba(250, 235, 215, 0.8);}
     #join_table{border-top: 1px solid black;width: 800px;margin-left: 15px;margin-top: 15px;border-spacing: 0;}
     #join_table td{padding-left: 10px;border-bottom: 1px solid black;}    
     #join_table input{margin-top: 3px;margin-bottom: 3px;}
     #join_table p{color: red;display: inline;}
     .left{text-align: right; width: 100px;}
-
     #red{color: red;font-size: 10px;margin-left: 15px;}
+    
     /* 약관 */
     .sign{width: 800px;margin-top: 15px;margin-left: 15px; height: 80px;overflow: auto;border: 1px solid black;font-size: 12px;background-color: #fff;}
     .sign b{font-size: 13px;}
@@ -43,7 +45,6 @@
     .checkbox{display: block;float: right;margin-top: 1px;margin-left: 3px;}
     #btn{text-align: center;}
     #btn input{margin-right: 15px;padding: 3px 10px;font-size: 15px;}
-    
     #color{color:red; font-weight:bold;}
 </style>
 </head>
@@ -69,11 +70,11 @@
                 <h1>회원가입</h1>
            		</div>
            		<!-- 회원가입 정보 입력 -->
-                <form action="memberjoin1" method="post">
+                <form action="memberjoin1" method="post" id="form">
                     <table id="join_table">
                         <tr>
                             <td class="left">ID :</td>
-                            <td><input type="text" name="id" id="id"/><p>*</p></td>
+                            <td><input type="text" name="id" id="id"/><p>*</p><div id="id_chk"></div></td>
                         </tr>
                         <tr>
                             <td class="left">PASSWORD :</td>
@@ -89,7 +90,7 @@
                         </tr>
                         <tr>
                             <td class="left">이메일 :</td>
-                            <td> <input type="text" name="mem_email" size="60" id="email" /><p>*</p></td>
+                            <td> <input type="text" name="mem_email" size="60" id="mail" /><p>*</p></td>
                         </tr>
                         <tr>
                             <td class="left">주소 :</td>
@@ -229,6 +230,7 @@
 </footer>
 </body>
 <script type="text/javascript">
+
 // 유효성 검사
 $(function(){
 	   $("#form").submit(function(){
@@ -240,36 +242,37 @@ $(function(){
 	          $("#id").focus();
 	          return false;
 	        }
+	        if($("#pw").val()==""){
+		       swal({title:"비밀번호를 입력해주세요!",icon:"error"});
+		       $("#pw").focus();
+		       return false;
+		    }
 	        if($("#name").val()==""){
 	     	  swal({title:"성명을 입력해주세요!",icon:"error"});
 	          $("#name").focus();
 	          return false;
 	        }
-	        if($("#email").val()==""){
+	        if($("#mobile").val()==""){
+		       swal({title:"전화번호를 입력하세요!",icon:"error"});
+		       $("#mobile").focus();
+		       return false;
+		    }
+	        if($("#mail").val()==""){
 	     	  swal({title:"이메일을 입력해주세요!",icon:"error"});
-	          $("#email").focus();
+	          $("#mail").focus();
 	          return false;
 	        }
-	        if(!mail.test($("email").val())){
+	        if(!mail.test($("#mail").val())){
 	     	  swal({title:"이메일 양식에 맞게 입력해주세요!",icon:"error"});
-	          $("#email").focus();
+	          $("#mail").focus();
 	          return false;
 	        } 
-	        if($("#mobile").val()==""){
-	     	  swal({title:"전화번호를 입력하세요!",icon:"error"});
-	          $("#mobile").focus();
-	          return false;
-	        } 
+	        
 	        if(!chknum.test($("#mobile").val())){
 	     	  swal({title:"전화번호 양식에 맞게 입력하세요!",icon:"error"});
 	          $("#mobile").focus();
 	          return false;
 	        }
-	        if($("#address").val()==""){
-		      swal({title:"주소를 입력하세요!",icon:"error"});
-		      $("#address").focus();
-		      return false;
-		    } 
 	        if($("input:checked[name=top_chkbox]").is(":checked")==false){
 	     	  swal({title:"필수약관에 동의하여 주십시오",icon:"error"});
 	 		  $("#sign_confirm1").focus();
@@ -280,8 +283,8 @@ $(function(){
 	   		  $("#sign_confirm1").focus();
 	   		  return false;
 	        } 
-       	 return true;
    	  });
-}); 
+});
+
 </script>
 </html>

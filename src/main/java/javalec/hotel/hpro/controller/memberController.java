@@ -19,6 +19,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javalec.hotel.hpro.hotelDAO.IDao;
 import javalec.hotel.hpro.hotelDTO.UserDTO;
@@ -47,6 +49,14 @@ public class memberController {
 		@RequestMapping(value = "/memberjoin", method = RequestMethod.GET)
 		public String memberjoin(Locale locale, Model model) {
 			return "/member/mem_join";
+		}
+		
+		@RequestMapping(value="/id_Check",method=RequestMethod.GET)
+		@ResponseBody
+		public int idChk(@RequestParam("userId") String user_id) throws Exception {
+			IDao dao=sqlSession.getMapper(IDao.class);
+			
+			return dao.id_chk(user_id);
 		}
 		
 		//회원가입
