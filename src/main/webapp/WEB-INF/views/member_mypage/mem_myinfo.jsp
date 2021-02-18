@@ -15,22 +15,22 @@
         #sectionlist {width: 70vw; height: inherit; margin: 0 auto; display: flex; justify-content: flex-start; align-items: center;}
         #sidemenu {width: 20%; height: inherit; display: flex; justify-content: center; align-items: center; }
         #sidemenu1 {width: 100%; height: 60%; background-color: wheat}
-        #mainarticle {width: 80%; height:80%; background-image:url("r.png");background-position:center;background-repeat: no-repeat;background-size:cover ;margin:30px;box-shadow:5px 5px 15px 5px rgba(0,0,0,.5);}
-     
+        #mainarticle {width: 80%; height:80%; background-image:url("r.png");background-position:center;background-repeat: no-repeat;background-size:cover ;background-color: wheat; margin:30px;box-shadow:5px 5px 15px 5px rgba(0,0,0,.5);}
         #my{position: relative; left:120px;top:40px; border-bottom: solid #8B4513;width: 80%;}
         
-
         #field {color: black; width: 70%;height: 50%; margin:60px;margin-left: 150px;position: relative;bottom:20px;}
         legend{margin:20px;}
         table{ margin-left:160px;width:100%;position: relative; right:150px;bottom: 30px;}
-        #color1{padding:10px;text-align: center;}
-        #sub1{display: flex;justify-content: center; }
+        #color1{padding:10px;text-align: right;}
+        #sub1{display: flex;justify-content: center;width:180px;margin:30px auto;background-color: wheat; }
+        #sub1 a{margin-right:10px;}
+        #sub1 a:hover{color:red;}
         #sub1 input{font-size:15px; margin:10px;padding:10px;background-color:bisque; border-style: solid tan;width:100px;position: relative;top:70px;right:30px;}
         #sidemenu1 ul li{ margin:60px; text-align:center; }
         #sidemenu1 ul li a{ color:#C29F6D;}
         #girl{position: relative;right:250px;}
         #s1 a:visited{color:#8B4513;}
-        
+       
     </style>
 </head>
 <body>
@@ -58,41 +58,42 @@
                             <legend>마이페이지</legend>
                             <table>
                                 <tr>
-                                    <td id="color1">아이디</td>
+                                    <td id="color1">아이디:</td>
                                     <td>${mem_info.ID}</td>
                                 </tr>
                                 <tr>
-                                    <td id="color1">이름</td>
+                                    <td id="color1">이름:</td>
                                     <td>${mem_info.NAME}</td>                             
                                 </tr>
                                 <tr>
-                                    <td id="color1">전화번호</td>
+                                    <td id="color1">전화번호:</td>
                                     <td>${mem_info.mem_mobile}</td>                            
                                 </tr>
                                 <tr>
-                                    <td id="color1">주소</td>
+                                    <td id="color1">주소:</td>
                                     <td>${mem_info.mem_address}</td>                             
                                 </tr>
                                 <tr>
-                                    <td id="color1">이메일</td>
+                                    <td id="color1">이메일:</td>
                                     <td>${mem_info.mem_email}</td>                             
                                 </tr>
                                 
                                 <tr>
-                                    <td id="color1">멤버쉽 번호</td>
+                                    <td id="color1">멤버쉽 번호:</td>
                                     <td>${mem_info.mem_number}</td>                             
                                 </tr>
                                 <tr>
-                                    <td id="color1">멤버십 등급</td>
+                                    <td id="color1">멤버십 등급:</td>
                                     <td>${mem_info.mem_tier}</td>                             
                                 </tr>
                                 <tr>
-                                    <td id="color1">멤버십 포인트</td>
+                                    <td id="color1">멤버십 포인트:</td>
                                     <td>${mem_info.mem_point}</td>                             
                                 </tr>
                             </table>
                             <div id="sub1">
-                                <a href="/member/mypage/mem_udpage">정보수정</a>
+                                <a href="mem_udpage">정보수정</a>
+                                <a href="mem_delpage">회원탈퇴</a>
                             </div>
                         </fieldset>
                 </form>

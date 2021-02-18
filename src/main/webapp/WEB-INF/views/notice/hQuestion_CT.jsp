@@ -177,8 +177,6 @@ span{color: red;}
     </div>
 </body>
 <script>
-
- 
 $(function(){
 	   $("#form").submit(function(){
 		var mail =/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
@@ -187,8 +185,7 @@ $(function(){
 	         swal({title:"유형을 선택해주세요!",icon:"error"});
 	         $("#FAQ_part").focus();
 	         return false;
-	      }
-			   
+	      } 
        if($("#que_title").val()==""){
     	 swal({title:"제목을 입력해주세요!",icon:"error"});
          $("#que_title").focus();

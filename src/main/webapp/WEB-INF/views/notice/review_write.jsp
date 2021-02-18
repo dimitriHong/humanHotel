@@ -115,42 +115,38 @@ span{color: red;}
     </div>
 </body>
 <script>
-	$(function() {
-		$("#form").submit(function() {
-			if ($("#que_title").val() == "") {
-				swal({
-					title : "제목을 입력해주세요!",
-					icon : "error"
-				});
-				$("#que_title").focus();
-				return false;
-			}
-			if ($("#que_ct").val() == "") {
-				swal({
-					title : "내용을 입력해주세요!",
-					icon : "error"
-				});
-				$("#que_ct").focus();
-				return false;
-			}
-			if ($("#que_name").val() == "") {
-				swal({
-					title : "성명을 입력해주세요!",
-					icon : "error"
-				});
-				$("#que_name").focus();
-				return false;
-			}
-			if ($("#que_password").val() == "") {
-				swal({
-					title : "비밀번호를 입력해주세요!",
-					icon : "error"
-				});
-				$("#que_password").focus();
-				return false;
-			}
-
-			return true;
-		});
+$(function() {
+	$("#form").submit(function() {
+		if ($("#que_title").val() == "") {
+			swal({title : "제목을 입력해주세요!",	icon : "error"	});
+			$("#que_title").focus();
+			return false;
+		}
+		if ($("#que_ct").val() == "") {
+			swal({
+				title : "내용을 입력해주세요!",
+				icon : "error"
+			});
+			$("#que_ct").focus();
+			return false;
+		}
+		if ($("#que_name").val() == "") {
+			swal({
+				title : "성명을 입력해주세요!",
+				icon : "error"
+			});
+			$("#que_name").focus();
+			return false;
+		}
+		if ($("#que_password").val() == "") {
+			swal({
+				title : "비밀번호를 입력해주세요!",
+				icon : "error"
+			});
+			$("#que_password").focus();
+			return false;
+		}
+	});
+});
 </script>
 </html>

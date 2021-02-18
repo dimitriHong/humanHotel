@@ -43,7 +43,6 @@
     #footerP4 ul li {float: left;}
 
     #mainarticle {width: 80%; height:80%; background-image:url("r.png");background-position:center;background-repeat: no-repeat;background-size:cover ;margin:30px;box-shadow:5px 5px 15px 5px rgba(0,0,0,.5);}
- 
     #my{position: relative; left:120px;top:40px; border-bottom: solid #8B4513;width: 80%;}
     
 
@@ -56,7 +55,7 @@
     #sidemenu1 ul li{ margin:60px; text-align:center; }
     #sidemenu1 ul li a{ color:#C29F6D;}
     #girl{position: relative;right:250px;}
-    #s1 a:visited{color:#8B4513;}
+    #s3 a:visited{color:#8B4513;}
     .btn{ margin-top: 100px;text-align: center;}
     .btn a{color: black;}
     .btn a:hover{cursor: pointer;}
@@ -120,7 +119,7 @@
             <div id="sidemenu1">
                 <!--이 안에 세부메뉴 목록 넣기-->
             <ul>
-              <li id="s1">  <a href="#">회원정보</a></li>
+              <li id="s1">  <a href="myinfo">회원정보</a></li>
               <li id="s3">  <a href="#">회원탈퇴</a></li>
             </ul>
             </div>

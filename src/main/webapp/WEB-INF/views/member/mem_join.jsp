@@ -64,41 +64,41 @@
             </div>
         </article>
         <article id="mainarticle">
-           
-            <!-- 가입 필요한 목록 다시 정해서 입력-->
              <div id="wrap_join">
              	 <div id="header">
                 <h1>회원가입</h1>
            		</div>
+           		<!-- 회원가입 정보 입력 -->
                 <form action="memberjoin1" method="post">
                     <table id="join_table">
                         <tr>
                             <td class="left">ID :</td>
-                            <td><input type="text" name="id" /><p>*</p></td>
+                            <td><input type="text" name="id" id="id"/><p>*</p></td>
                         </tr>
                         <tr>
                             <td class="left">PASSWORD :</td>
-                            <td><input type="password" name="password" /><p>*</p></td>
+                            <td><input type="password" name="password" id="pw" /><p>*</p></td>
                         </tr>
                         <tr>
                             <td class="left">이름 :</td>
-                            <td><input type="text" name="name" /><p>*</p></td>
+                            <td><input type="text" name="name" id="name"/><p>*</p></td>
                         </tr>
                         <tr>
                             <td class="left">전화번호 :</td>
-                            <td><input type="text" name="mem_mobile" placeholder="예)01012345678"/><p>*</p></td>
+                            <td><input type="text" name="mem_mobile" id="mobile" placeholder="예)01012345678"/><p>*</p></td>
                         </tr>
                         <tr>
                             <td class="left">이메일 :</td>
-                            <td> <input type="text" name="mem_email" size="60" /><p>*</p></td>
+                            <td> <input type="text" name="mem_email" size="60" id="email" /><p>*</p></td>
                         </tr>
                         <tr>
                             <td class="left">주소 :</td>
-                            <td><input type="text" name="mem_address" size="80"/></td>
+                            <td><input type="text" name="mem_address" size="80" id="address" /></td>
                         </tr>
                     </table>   
                     <div id="red">*모두 필수 입력</div> 
                  <div class="sign">
+                 <!-- 약관 내용 -->
                     <h1>개인정보 수집·이용 동의</h1>
                     <div class="text">
                         1. 휴먼호텔는 개인정보의 수집 시 관련 법규에 따라 가입신청서 또는 이용약관에 그 수집 범위 및 목적을 사전 고지 합니다. <br>
@@ -131,7 +131,7 @@
                     </div>
                 </div>
                 <div class="confirm_text">※ 상기 개인정보 수집∙이용에 대하여 귀하는 동의하지 않을 수 있습니다. 단, 동의 거부 시 홈페이지 회원가입 불가합니다<br>
-                    <input type="checkbox" class="checkbox">상기 개인정보 수집∙이용에 동의함 </div>
+                    <input type="checkbox" class="checkbox" name="top_chkbox" id="top_chkbox">상기 개인정보 수집∙이용에 동의함 </div>
                 <div class="sign">
                     <h1>회원가입 약관</h1>
                     <div class="text">
@@ -216,7 +216,7 @@
                         본 약관은 2020년 6월 1일부터 시행합니다.<br>
                     </div>
                 </div>
-                <div class="confirm_text"><input type="checkbox" class="checkbox">회원가입 약관에 동의합니다.</div>
+                <div class="confirm_text"><input type="checkbox" class="checkbox" name="bottom_chkbox" id="bottom_chkbox">회원가입 약관에 동의합니다.</div>
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> 
                 <div id="btn"><input type="submit" value="회원가입"/><input type="button" value="취소"></div>
                 </form>
@@ -228,4 +228,60 @@
     <jsp:include page="../Main/footer.jsp" />
 </footer>
 </body>
+<script type="text/javascript">
+// 유효성 검사
+$(function(){
+	   $("#form").submit(function(){
+			var mail =/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+	 		var chknum =  /^\d{3}\d{3,4}\d{4}$/;
+		
+	        if($("#id").val()==""){
+	     	  swal({title:"ID를 입력해주세요!",icon:"error"});
+	          $("#id").focus();
+	          return false;
+	        }
+	        if($("#name").val()==""){
+	     	  swal({title:"성명을 입력해주세요!",icon:"error"});
+	          $("#name").focus();
+	          return false;
+	        }
+	        if($("#email").val()==""){
+	     	  swal({title:"이메일을 입력해주세요!",icon:"error"});
+	          $("#email").focus();
+	          return false;
+	        }
+	        if(!mail.test($("email").val())){
+	     	  swal({title:"이메일 양식에 맞게 입력해주세요!",icon:"error"});
+	          $("#email").focus();
+	          return false;
+	        } 
+	        if($("#mobile").val()==""){
+	     	  swal({title:"전화번호를 입력하세요!",icon:"error"});
+	          $("#mobile").focus();
+	          return false;
+	        } 
+	        if(!chknum.test($("#mobile").val())){
+	     	  swal({title:"전화번호 양식에 맞게 입력하세요!",icon:"error"});
+	          $("#mobile").focus();
+	          return false;
+	        }
+	        if($("#address").val()==""){
+		      swal({title:"주소를 입력하세요!",icon:"error"});
+		      $("#address").focus();
+		      return false;
+		    } 
+	        if($("input:checked[name=top_chkbox]").is(":checked")==false){
+	     	  swal({title:"필수약관에 동의하여 주십시오",icon:"error"});
+	 		  $("#sign_confirm1").focus();
+	 		  return false;
+	        } 
+	        if($("input:checked[name=bottom_chkbox]").is(":checked")==false){
+	     	  swal({title:"필수약관에 동의하여 주십시오",icon:"error"});
+	   		  $("#sign_confirm1").focus();
+	   		  return false;
+	        } 
+       	 return true;
+   	  });
+}); 
+</script>
 </html>
